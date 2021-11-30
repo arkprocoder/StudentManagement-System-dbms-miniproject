@@ -1,0 +1,39 @@
+{% extends 'auth.html' %}
+{% block title %}
+login
+{% endblock title %}
+{% block content %}
+ <h1 class="mb-4 pb-0"><span>Login</span> </h1>
+  
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+    {{message}}
+
+
+</div>
+
+
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+<form class=" text-white py-3 px-3" action="/login" method="post">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control mb-3" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required>
+    
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+  </div>
+<br>
+  <button type="submit" class="form-control bg-danger text-white">Login</button>
+   <p class="mb-2 pb-0">New User?</p>
+    
+      <a href="/signup" class="about-btn scrollto">Signup</a>
+</form>
+     
+{% endblock content %}

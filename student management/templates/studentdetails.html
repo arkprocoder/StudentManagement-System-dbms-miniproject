@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}
+Student Details
+{% endblock title %}
+
+
+
+{% block body %}
+ <h3 class="text-center"><span>Student Details</span> </h3>
+  
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+    {{message}}
+
+
+</div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+<br>
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">SID</th>
+      <th scope="col">ROLL NUMBER</th>
+      <th scope="col">STUDENT NAME</th>
+      <th scope="col">SEM</th>
+      <th scope="col">GENDER</th>
+      <th scope="col">BRANCH</th>
+      <th scope="col">EMAIL</th>
+      <th scope="col">NUMBER</th>
+      <th scope="col">ADDRESS</th>
+      <th scope="col">EDIT</th>
+      <th scope="col">DELETE</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  {% for post in query %}
+    <tr>
+      <th scope="row">{{post.id}}</th>
+      <td>{{post.rollno}}</td>
+      <td>{{post.sname}}</td>
+      <td>{{post.sem}}</td>
+      <td>{{post.gender}}</td>
+      <td>{{post.branch}}</td>
+      <td>{{post.email}}</td>
+      <td>{{post.number}}</td>
+      <td>{{post.address}}</td>
+    <td><a href="/edit/{{post.id}}"><button class="btn btn-primary">Edit </button> </a> </td>
+    <td><a href="/delete/{{post.id}}"><button onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger">Delete </button> </a> </td>
+    </tr>
+{% endfor %}
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+{% endblock body %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+Add Attendance
+{% endblock title %}
+
+
+
+{% block body %}
+ <h3 class="text-center"><span>Add Attendance Details</span> </h3>
+  
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+    {{message}}
+
+
+</div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+<br>
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4"></div>
+<div class="col-md-4">
+
+<form action="/addattendance" method="post">
+
+<div class="form-group">                          
+<select class="form-control" id="rollno" name="rollno"  required>
+        <option selected>Select RollNo</option>
+        {% for r in query  %}
+        <option value="{{r.rollno}}">{{r.rollno}}</option>
+        {% endfor %}
+      </select>
+ </div>
+<br>
+
+<div class="form-group">
+<label for="attendance">Attendance Percentage</label>
+<input type="number" class="form-control" name="attend" id="attend">
+</div>
+<br>
+
+  <button type="submit" class="btn btn-danger btn-sm btn-block">Add Attendance</button>
+</form>
+<br>
+<br>
+
+</div>
+
+<div class="col-md-4"></div>
+
+</div></div>
+
+
+
+{% endblock body %}
