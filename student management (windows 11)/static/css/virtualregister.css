@@ -1,0 +1,93 @@
+.section-title {
+    text-align: center;
+    /* padding-bottom: 30px; */
+}
+
+.pricing .row {
+    padding-top: 0px;
+}
+
+h6 {
+    font-family: 'Cormorant Garamond', serif;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 15px;
+    font-size: 22px;
+    position: relative;
+    animation-name: sign;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes sign {
+    0% {
+        top: 0px;
+        background-color: #ff4e00;
+        background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
+    }
+    50% {
+        top: 10px;
+        background-color: #ff4e00;
+        background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
+    }
+    100% {
+        top: 10px;
+    }
+}
+
+.card {
+    margin-top: 57px;
+    border-radius: 8px 40px 40px 8px;
+    transition: all 0.5s ease-in-out;
+    box-shadow: 1px 0px 8px 2px orangered;
+}
+
+label {
+    color: black;
+    margin-top: 15px;
+    font-family: 'Itim', cursive;
+}
+
+.form-group input {
+    width: 400px;
+    border: none;
+    /* border-bottom: 1px solid purple; */
+    border-bottom: 2px solid red;
+    outline: none;
+    font-size: 22px;
+    margin-bottom: 5px;
+    font-family: 'Itim', cursive;
+}
+
+textarea {
+    resize: vertical;
+    width: 400px;
+    border-bottom: 2px solid red;
+}
+
+.drop {
+    width: 400px;
+    border: none;
+    border-bottom: 2px solid red;
+    outline: none;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.form-group input:hover {
+    background-color: ghostwhite;
+}
+
+#btn {
+    background-color: #7f5a83;
+    background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+    border-radius: 15px;
+    border: none;
+    position: relative;
+}
+
+#btn:hover {
+    background-color: #0cbaba;
+    background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+}

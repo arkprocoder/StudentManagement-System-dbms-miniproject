@@ -76,12 +76,14 @@ def index():
 
 @app.route('/studentdetails')
 def studentdetails():
-    query=db.engine.execute(f"SELECT * FROM `student`") 
+    # query=db.engine.execute(f"SELECT * FROM `student`") 
+    query=Student.query.all() 
     return render_template('studentdetails.html',query=query)
 
 @app.route('/triggers')
 def triggers():
-    query=db.engine.execute(f"SELECT * FROM `trig`") 
+    # query=db.engine.execute(f"SELECT * FROM `trig`") 
+    query=Trig.query.all()
     return render_template('triggers.html',query=query)
 
 @app.route('/department',methods=['POST','GET'])
@@ -100,7 +102,8 @@ def department():
 
 @app.route('/addattendance',methods=['POST','GET'])
 def addattendance():
-    query=db.engine.execute(f"SELECT * FROM `student`") 
+    # query=db.engine.execute(f"SELECT * FROM `student`") 
+    query=Student.query.all()
     if request.method=="POST":
         rollno=request.form.get('rollno')
         attend=request.form.get('attend')
@@ -126,7 +129,10 @@ def search():
 @app.route("/delete/<string:id>",methods=['POST','GET'])
 @login_required
 def delete(id):
-    db.engine.execute(f"DELETE FROM `student` WHERE `student`.`id`={id}")
+    post=Student.query.filter_by(id=id).first()
+    db.session.delete(post)
+    db.session.commit()
+    # db.engine.execute(f"DELETE FROM `student` WHERE `student`.`id`={id}")
     flash("Slot Deleted Successful","danger")
     return redirect('/studentdetails')
 
@@ -134,8 +140,7 @@ def delete(id):
 @app.route("/edit/<string:id>",methods=['POST','GET'])
 @login_required
 def edit(id):
-    dept=db.engine.execute("SELECT * FROM `department`")
-    posts=Student.query.filter_by(id=id).first()
+    # dept=db.engine.execute("SELECT * FROM `department`")    
     if request.method=="POST":
         rollno=request.form.get('rollno')
         sname=request.form.get('sname')
@@ -145,10 +150,21 @@ def edit(id):
         email=request.form.get('email')
         num=request.form.get('num')
         address=request.form.get('address')
-        query=db.engine.execute(f"UPDATE `student` SET `rollno`='{rollno}',`sname`='{sname}',`sem`='{sem}',`gender`='{gender}',`branch`='{branch}',`email`='{email}',`number`='{num}',`address`='{address}'")
+        # query=db.engine.execute(f"UPDATE `student` SET `rollno`='{rollno}',`sname`='{sname}',`sem`='{sem}',`gender`='{gender}',`branch`='{branch}',`email`='{email}',`number`='{num}',`address`='{address}'")
+        post=Student.query.filter_by(id=id).first()
+        post.rollno=rollno
+        post.sname=sname
+        post.sem=sem
+        post.gender=gender
+        post.branch=branch
+        post.email=email
+        post.number=num
+        post.address=address
+        db.session.commit()
         flash("Slot is Updates","success")
         return redirect('/studentdetails')
-    
+    dept=Department.query.all()
+    posts=Student.query.filter_by(id=id).first()
     return render_template('edit.html',posts=posts,dept=dept)
 
 
@@ -164,12 +180,12 @@ def signup():
             return render_template('/signup.html')
         encpassword=generate_password_hash(password)
 
-        new_user=db.engine.execute(f"INSERT INTO `user` (`username`,`email`,`password`) VALUES ('{username}','{email}','{encpassword}')")
+        # new_user=db.engine.execute(f"INSERT INTO `user` (`username`,`email`,`password`) VALUES ('{username}','{email}','{encpassword}')")
 
         # this is method 2 to save data in db
-        # newuser=User(username=username,email=email,password=encpassword)
-        # db.session.add(newuser)
-        # db.session.commit()
+        newuser=User(username=username,email=email,password=encpassword)
+        db.session.add(newuser)
+        db.session.commit()
         flash("Signup Succes Please Login","success")
         return render_template('login.html')
 
@@ -206,7 +222,8 @@ def logout():
 @app.route('/addstudent',methods=['POST','GET'])
 @login_required
 def addstudent():
-    dept=db.engine.execute("SELECT * FROM `department`")
+    # dept=db.engine.execute("SELECT * FROM `department`")
+    dept=Department.query.all()
     if request.method=="POST":
         rollno=request.form.get('rollno')
         sname=request.form.get('sname')
@@ -216,8 +233,10 @@ def addstudent():
         email=request.form.get('email')
         num=request.form.get('num')
         address=request.form.get('address')
-        query=db.engine.execute(f"INSERT INTO `student` (`rollno`,`sname`,`sem`,`gender`,`branch`,`email`,`number`,`address`) VALUES ('{rollno}','{sname}','{sem}','{gender}','{branch}','{email}','{num}','{address}')")
-    
+        # query=db.engine.execute(f"INSERT INTO `student` (`rollno`,`sname`,`sem`,`gender`,`branch`,`email`,`number`,`address`) VALUES ('{rollno}','{sname}','{sem}','{gender}','{branch}','{email}','{num}','{address}')")
+        query=Student(rollno=rollno,sname=sname,sem=sem,gender=gender,branch=branch,email=email,number=num,address=address)
+        db.session.add(query)
+        db.session.commit()
 
         flash("Booking Confirmed","info")
 
