@@ -178,12 +178,12 @@ def signup():
         if user:
             flash("Email Already Exist","warning")
             return render_template('/signup.html')
-        encpassword=generate_password_hash(password)
+        # encpassword=generate_password_hash(password)
 
         # new_user=db.engine.execute(f"INSERT INTO `user` (`username`,`email`,`password`) VALUES ('{username}','{email}','{encpassword}')")
 
         # this is method 2 to save data in db
-        newuser=User(username=username,email=email,password=encpassword)
+        newuser=User(username=username,email=email,password=password)
         db.session.add(newuser)
         db.session.commit()
         flash("Signup Succes Please Login","success")
@@ -200,7 +200,8 @@ def login():
         password=request.form.get('password')
         user=User.query.filter_by(email=email).first()
 
-        if user and check_password_hash(user.password,password):
+        # if user and check_password_hash(user.password,password):
+        if user and user.password == password:
             login_user(user)
             flash("Login Success","primary")
             return redirect(url_for('index'))
